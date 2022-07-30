@@ -1,0 +1,15 @@
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\bin\Debug\net6.0\File System Emulator.exe
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\bin\Debug\net6.0\File System Emulator.deps.json
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\bin\Debug\net6.0\File System Emulator.runtimeconfig.json
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\bin\Debug\net6.0\File System Emulator.dll
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\bin\Debug\net6.0\File System Emulator.pdb
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\File System Emulator.csproj.AssemblyReference.cache
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\File System Emulator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\File System Emulator.AssemblyInfoInputs.cache
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\File System Emulator.AssemblyInfo.cs
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\File System Emulator.csproj.CoreCompileInputs.cache
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\File System Emulator.dll
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\refint\File System Emulator.dll
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\File System Emulator.pdb
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\File System Emulator.genruntimeconfig.cache
+C:\Users\aramh\source\repos\File System Emulator\File System Emulator\obj\Debug\net6.0\ref\File System Emulator.dll
