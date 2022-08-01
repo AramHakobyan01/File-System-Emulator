@@ -43,6 +43,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.Azure.Management.Compute": {
+              "target": "Package",
+              "version": "[57.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
