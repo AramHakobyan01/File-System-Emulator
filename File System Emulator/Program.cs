@@ -340,12 +340,5 @@ void AccessesFolder(string[] commands)
 
 void FullPath()
 {
-    if (Directory.Exists(path))
-    {
-        //Console.WriteLine(dirInfo.FullName);
-    }
-    else
-    {
-        Console.WriteLine("Command not found");
-    }
+    Console.WriteLine(path);
 }
