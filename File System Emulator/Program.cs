@@ -1,19 +1,20 @@
-﻿
-var os_info = Environment.OSVersion.ToString().Split(' ');
+﻿var os_info = Environment.OSVersion.ToString().Split(' ');
 Console.WriteLine(os_info[0]);
 var path = "root";
-DirectoryInfo dirInfo = new DirectoryInfo(path);
-if (!dirInfo.Exists)
-{
-    dirInfo.Create();
-}
 var slash = "";
+var dirs = path.Split(slash);
+var paths = new Dictionary<int, string>();
+var folders = new Dictionary<int, string>();
+var files = new Dictionary<int, string>();
+int num = 1;
+
+
 switch (os_info[0])
 {
     case "Microsoft":
         slash = @"\";
         break;
-    case "MacOS":
+    case "Unix":
         slash = "/";
         break;
     case "Linux":
@@ -23,46 +24,68 @@ switch (os_info[0])
 
 while (true)
 {
-    dirInfo = new DirectoryInfo(path);
     var command = Console.ReadLine().ToString();
     var commands = command.Split(' ');
+    dirs = path.Split(slash);
     switch (commands[0])
     {
         case "":
             break;
         case "ls":
             if (commands.Length > 1)
+            {
                 Console.WriteLine("Command not found");
+                break;
+            }
             Lists();
             break;
         case "pwd":
             if (commands.Length > 1)
+            {
                 Console.WriteLine("Command not found");
+                break;
+            }
+
             FullPath();
             break;
         case "mkdir":
             if (commands.Length != 2)
+            {
                 Console.WriteLine("Command not found");
+                break;
+            }
             CreateFolder(commands);
             break;
         case "rm":
             if (commands.Length != 2)
+            {
                 Console.WriteLine("Command not found");
+                break;
+            }
             RemoveFile(commands);
             break;
         case "touch":
             if (commands.Length != 2)
+            {
                 Console.WriteLine("Command not found");
+                break;
+            }
             CreateFile(commands);
             break;
         case "rmdir":
             if (commands.Length != 2)
+            {
                 Console.WriteLine("Command not found");
+                break;
+            }
             RemoveFolder(commands);
             break;
         case "cd":
             if (commands.Length != 2)
+            {
                 Console.WriteLine("Command not found");
+                break;
+            }
             AccessesFolder(commands);
             break;
         default:
@@ -75,20 +98,27 @@ while (true)
 
 void Lists()
 {
-    if (Directory.Exists(path))
+    foreach (var folder in folders)
     {
-
-        var dirs = Directory.GetFileSystemEntries(path);
-        for (int i = 0; i < dirs.Length; i++)
+            foreach (var p in paths)
+            {
+                if (p.Key == folder.Key && p.Value == dirs[dirs.Length - 1])
+                {
+                Console.WriteLine(folder.Value);
+             }
+            }
+    }
+    foreach (var file in files)
+    {
+        foreach (var p in paths)
         {
-            string[] name = dirs[i].Split(slash);
-            Console.WriteLine(name[name.Length - 1]);
+            if (p.Key == file.Key && p.Value == dirs[dirs.Length - 1])
+            {
+                Console.WriteLine(file.Value);
+            }
         }
     }
-    else
-    {
-        Console.WriteLine("Command not found");
-    }
+
 
 }
 
@@ -96,13 +126,45 @@ void Lists()
 
 void CreateFolder(string[] commands)
 {
-    if (!Directory.Exists(path + slash + commands[1]))
+    int count = 0;
+    foreach (var folder in folders )
+    {
+        if (folder.Value == commands[1])
+        {
+            foreach (var p in paths)
+            {
+                if(p.Key == folder.Key && p.Value == dirs[dirs.Length - 1])
+                {
+                    count++;
+                    break;
+                }
+            }
+        }
+    }
+    foreach (var file in files)
+    {
+        if (file.Value == commands[1])
+        {
+            foreach (var p in paths)
+            {
+                if (p.Key == file.Key && p.Value == dirs[dirs.Length - 1])
+                {
+                    count++;
+                    break;
+                }
+            }
+        }
+    }
+    if (count==0)
     {
         if (commands[1][0] != '/' && commands[1][0] != ':' && commands[1][0] != '*'
             && commands[1][0] != '?' && commands[1][0] != '"' && commands[1][0] != '<' && commands[1][0] != '>'
             && commands[1][0] != '|' && commands[1][0] != 92)
         {
-            dirInfo.CreateSubdirectory(commands[1]);
+            folders.Add(num, commands[1]);
+            paths.Add(num, dirs[dirs.Length - 1]);
+            num++;
+            //dirInfo.CreateSubdirectory(commands[1]);
         }
         else
             Console.WriteLine(@"A folder name can`t contain any of the following charecters: \/:*?<>|" + '"');
@@ -118,14 +180,45 @@ void CreateFolder(string[] commands)
 
 void CreateFile(string[] commands)
 {
-    if (!File.Exists(path + slash + commands[1]))
+    int count = 0;
+    foreach (var folder in folders)
     {
-        using (FileStream f = File.Create(path + slash + commands[1]))
+        if (folder.Value == commands[1])
         {
-
-            f.Close();
+            foreach (var p in paths)
+            {
+                if (p.Key == folder.Key && p.Value == dirs[dirs.Length - 1])
+                {
+                    count++;
+                    break;
+                }
+            }
         }
     }
+    foreach (var file in files)
+    {
+        if (file.Value == commands[1])
+        {
+            foreach (var p in paths)
+            {
+                if (p.Key == file.Key && p.Value == dirs[dirs.Length - 1])
+                {
+                    count++;
+                    break;
+                }
+            }
+        }
+    }
+    if (count == 0)
+    {
+
+        files.Add(num, commands[1]);
+        paths.Add(num, dirs[dirs.Length - 1]);
+        num++;
+
+    }
+
+
     else
     {
         Console.WriteLine("there is already such a file or folder");
@@ -135,17 +228,25 @@ void CreateFile(string[] commands)
 
 void RemoveFolder(string[] commands)
 {
-    if (Directory.Exists(path + slash + commands[1]))
+    int count = 0;
+    foreach (var folder in folders)
     {
-        var a = Directory.GetFileSystemEntries(path + slash + commands[1]);
-        if (a.Length < 1)
+        if (folder.Value == commands[1])
         {
-            Directory.Delete(path + slash + commands[1]); ;
+            foreach (var p in paths)
+            {
+                if (p.Key == folder.Key && p.Value == dirs[dirs.Length - 1])
+                {
+                    count = p.Key;
+                    break;
+                }
+            }
         }
-        else
-        {
-            Console.WriteLine("this folder is not empty");
-        }
+    }
+    if (count != 0) { 
+
+        folders.Remove(count);
+        paths.Remove(count);
     }
     else
     {
@@ -157,9 +258,25 @@ void RemoveFolder(string[] commands)
 
 void RemoveFile(string[] commands)
 {
-    if (File.Exists(path + slash + commands[1]))
+    int count = 0;
+    foreach (var file in files)
     {
-        File.Delete(path + slash + commands[1]);
+        if (file.Value == commands[1])
+        {
+            foreach (var p in paths)
+            {
+                if (p.Key == file.Key && p.Value == dirs[dirs.Length - 1])
+                {
+                    count = p.Key;
+                    break;
+                }
+            }
+        }
+    }
+    if (count != 0)
+    {
+
+        files.Remove(count);
     }
     else
     {
@@ -170,6 +287,21 @@ void RemoveFile(string[] commands)
 
 void AccessesFolder(string[] commands)
 {
+    int count = 0;
+    foreach (var folder in folders)
+    {
+        if (folder.Value == commands[1])
+        {
+            foreach (var p in paths)
+            {
+                if (p.Key == folder.Key && p.Value == dirs[dirs.Length - 1])
+                {
+                    count = p.Key;
+                    break;
+                }
+            }
+        }
+    }
     if (commands[1] == ".." && commands[1].Length < 3)
     {
         var dirs = path.Split(slash);
@@ -185,7 +317,7 @@ void AccessesFolder(string[] commands)
         Console.WriteLine(path);
 
     }
-    else if (Directory.Exists(path + slash + commands[1]) && commands[1][0] != '.')
+    else if (count != 0 && commands[1][0] != '.')
     {
         if (commands[1][0] != '/' && commands[1][0] != ':' && commands[1][0] != '*'
             && commands[1][0] != '?' && commands[1][0] != '"' && commands[1][0] != '<' && commands[1][0] != '>'
@@ -210,7 +342,7 @@ void FullPath()
 {
     if (Directory.Exists(path))
     {
-        Console.WriteLine(dirInfo.FullName);
+        //Console.WriteLine(dirInfo.FullName);
     }
     else
     {
