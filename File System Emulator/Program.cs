@@ -83,7 +83,7 @@ while (true)
             RemoveFolder(commands);
             break;
         case "cd":
-            if (commands.Length != 2)
+            if (commands[1].Length < 1 || commands.Length != 2)
             {
                 Console.WriteLine("Command not found");
                 break;
