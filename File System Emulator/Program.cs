@@ -33,23 +33,25 @@ while (true)
             break;
         case "ls":
             if (commands.Length > 1)
-            {
-                Console.WriteLine("Command not found");
-                break;
-            }
+                if (commands[1].Length >= 1 )
+                {
+                    Console.WriteLine("Command not found");
+                    break;
+                }
             Lists();
             break;
         case "pwd":
             if (commands.Length > 1)
-            {
-                Console.WriteLine("Command not found");
-                break;
-            }
+                if (commands[1].Length >= 1)
+                {
+                    Console.WriteLine("Command not found");
+                    break;
+                }
 
             FullPath();
             break;
         case "mkdir":
-            if (commands.Length != 2)
+            if (commands[1].Length < 1 || commands.Length != 2)
             {
                 Console.WriteLine("Command not found");
                 break;
@@ -57,7 +59,7 @@ while (true)
             CreateFolder(commands);
             break;
         case "rm":
-            if (commands.Length != 2)
+            if (commands[1].Length < 1 || commands.Length != 2)
             {
                 Console.WriteLine("Command not found");
                 break;
@@ -65,7 +67,7 @@ while (true)
             RemoveFile(commands);
             break;
         case "touch":
-            if (commands.Length != 2)
+            if (commands[1].Length < 1 || commands.Length != 2)
             {
                 Console.WriteLine("Command not found");
                 break;
@@ -73,7 +75,7 @@ while (true)
             CreateFile(commands);
             break;
         case "rmdir":
-            if (commands.Length != 2)
+            if (commands[1].Length < 1 || commands.Length != 2)
             {
                 Console.WriteLine("Command not found");
                 break;
@@ -155,11 +157,12 @@ void CreateFolder(string[] commands)
             }
         }
     }
-    if (count==0)
+
+    if (count == 0)
     {
-        if (commands[1][0] != '/' && commands[1][0] != ':' && commands[1][0] != '*'
+        if (commands[1] != " " && commands[1][0] != '/' && commands[1][0] != ':' && commands[1][0] != '*'
             && commands[1][0] != '?' && commands[1][0] != '"' && commands[1][0] != '<' && commands[1][0] != '>'
-            && commands[1][0] != '|' && commands[1][0] != 92)
+            && commands[1][0] != '|' && commands[1][0] != 92 )
         {
             folders.Add(num, commands[1]);
             paths.Add(num, dirs[dirs.Length - 1]);
